@@ -1,0 +1,34 @@
+
+.bgc-blue{
+    background-color: #98d4f7;
+}
+.tip{
+    width: 8%;
+}
+.w-80{
+    width: 80%;
+    margin: auto auto;
+}
+.w-95{
+    width: 95%;
+    margin: auto auto;
+}
+.w-90{
+    width: 90%;
+    margin: auto auto;
+}
+.table-bordered-l{
+    margin: 20px auto;
+}
+.ml-20{
+    margin-left: 20px;
+}
+.divider{
+    height: 1px;
+    width: 100%;
+    border-bottom: 1px dashed black;
+}
+.hover-underline:hover{
+    text-decoration: underline;
+    font-weight: bolder;
+}

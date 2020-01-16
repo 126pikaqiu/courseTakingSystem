@@ -1,0 +1,114 @@
+<script src="js/utils.js"></script>
+<script src="js/router/instructor.router.js"></script>
+<div class="container  instructor-container" style="display: none">
+    <div class="row">
+        <div class="panel-group w-95">
+            <div class="panel panel-primary">
+                <div class="panel panel-body">
+                    <a class="btn btn-success" id="import_grade">导入成绩</a>
+                    <span id="file_name"></span>
+                    <label class="pull-right">成绩录入样例文件<a href="./examples/score_list_example.xlsx" class="hover-underline">下载</a></label>
+                </div>
+
+            </div><!-- end of panel -->
+        </div>
+
+    </div>
+    <div class="row" style="display: none">
+        <form id="upload" enctype="multipart/form-data" method="post">
+            <input type="file" name="excel_file" id="up_file" accept=".xlsx"/>
+        </form>
+    </div>
+    <div class="row">
+        <div class="panel-group w-95">
+            <div class="panel panel-primary">
+                <div class="panel panel-body">
+                    <table class="table table-bordered table-hover table-check text-center">
+                        <thead>
+                        <tr class="success">
+                            <th>课程编号</th>
+                            <th>课程名</th>
+                            <th>上课时间</th>
+                            <th>教室</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="sections_body">
+                        </tbody>
+                    </table>
+                </div>
+            </div><!-- end of panel -->
+        </div>
+
+        <script>
+            $(function(){
+                myTaught();
+                bindEvents();
+            });
+            function myTaught() {
+                let params = {'user_id': getCookie('user_id')};
+                let section_str = '                        <tr>\n' +
+                    '                            <td>{course_id}.0{section_id}</td>\n' +
+                    '                            <td>{title}</td>\n' +
+                    '                            <td>{time}</td>\n' +
+                    '                            <td>{classroom_no}</td>\n' +
+                    '                            <td>\n' +
+                    '                                <a href="javascript:void(0)" class="file_submit hover-underline" data="{course_id}.{section_id}">确认录入</a>\n' +
+                    '                                <a href="javascript:void(0)" class="student_list hover-underline" data="{course_id}.{section_id}">课程名单</a>\n' +
+                    '                            </td>\n' +
+                    '                        </tr>';
+                let sections_html = '';
+                let day2time = {'1': '星期一', '2': '星期二','3': '星期三','4': '星期四','5': '星期五','6': '星期六','7': '星期天'};
+                $.when(getMyTaughtCourses(params))
+                    .done(function (res) {
+                        if(res.code > 0){
+                            for(let i = 0; i < res.total_num; i++){
+                                let section = res.sections[i];
+                                section['time'] = day2time[section['day']]  + '  ' + section['start'] + '-' + section['end'];
+                                sections_html += section_str.format(section);
+                            }
+                            $('#sections_body').html(sections_html);
+                            $('.student_list').click(function () {
+                                window.open("courseNameList.html?id=" + $(this).attr('data'));
+                            });
+                            $('.file_submit').click(function () {
+                                if($("#up_file").val() === ""){
+                                    showMessage('请先选择文件',)
+                                } else {
+                                    uploadFile();
+                                }
+                            });
+                        }
+                    })
+            }
+            function bindEvents() {
+                $('#import_grade').click(function () {
+                    if(parseInt(getCookie('courseStatus')) !== 2){
+                        showMessage('登分功能暂未开放');
+                        return;
+                    }
+                    $("#up_file").click();
+                });
+                $("#up_file").change(function () {
+                    let file_name = $(this).val();
+                    $("#file_name").html(file_name.substr(file_name.lastIndexOf('\\') + 1))
+                });
+
+            }
+            function uploadFile() {
+                let form = document.getElementById('upload');
+                let formData = new FormData(form);
+                $.when(registerScore(formData))
+                    .done(function (res) {
+                        console.log(res);
+                        if(res.code > 0){
+                            showMessage('录入成绩成功');
+                        } else {
+                            showMessage("row: " + (res.successed_item_num + 1) + ", " + res.msg, 0,2000);
+                        }
+                    });
+
+            }
+        </script>
+    </div>
+</div>

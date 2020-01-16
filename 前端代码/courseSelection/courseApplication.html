@@ -1,0 +1,136 @@
+<script src="js/utils.js"></script>
+<script src="js/router/student.router.js"></script>
+<script src="js/api/course.js"></script>
+<script src="js/api/index.js"></script>
+<div class="container select-not-allow" style="display:none;">
+    <h1 style="color: red">选课系统暂未开放</h1>
+</div>
+<div class="container student-container select-allow" style="display: none">
+    <div class="row mt-20">
+        <label>申请记录</label>
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                <table class="table table-bordered table-hover table-check text-center">
+                    <thead>
+                    <tr class="success">
+                        <th>开课编号</th>
+                        <th>课程名</th>
+                        <th>任课教师</th>
+                        <th>申请理由</th>
+                        <th>状态</th>
+                    </tr>
+                    </thead>
+                    <tbody id="application_body">
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div><!-- end of panel -->
+    </div>
+    <div class="row">
+        <label>申请课程</label>
+        <div class="panel panel-primary">
+            <div class="panel panel-body">
+                <form class="form-inline ml-10 mb-20">
+                    <div class="form-group">
+                        <label class="ml-20">开课编号</label>
+                        <input type="text" class="form-control" name="course_sec" id="course_sec" placeholder="开课编号" >
+
+                        <label class="ml-20">课程名</label>
+                        <input type="text" class="form-control" name="title" id="title" placeholder="课程名">
+                    </div>
+                </form>
+                <form class="form-inline ml-10">
+                    <label class="ml-20">申请理由</label>
+                </form>
+                <form class="form-inline ml-10 mb-20">
+                    <textarea name="applicationReason" class="ml-20" id="application_reason" cols="60" rows="10">
+
+                    </textarea>
+                </form>
+                <form class="form-inline ml-10">
+                    <a class="btn btn-success ml-20" id="submit">提交申请</a> <label style="color: #d9534f;display: none" id="exits_empty">请将信息填写完整</label>
+                </form>
+            </div>
+
+        </div><!-- end of panel -->
+    </div>
+    <script>
+        $(function(){
+            getMyApplications();
+            bindEvents();
+        });
+        function getMyApplications() {
+            let params = {'user_id': getCookie('user_id')};
+            let app_str = '                    <tr>\n' +
+                '                        <td>{course_id}.0{section_id}</td>\n' +
+                '                        <td>{title}</td>\n' +
+                '                        <td>{instructor_name}</td>\n' +
+                '                        <td title="{application_reason}">{application_reason_sim}...</td>\n' +
+                '                        <td>{status}</td>\n' +
+                '                    </tr>';
+            let app_html = '';
+            const status2str = {0:'待处理', 1:'已同意',2:'已拒绝'};
+            $.when(getMyApplyCourse(params))
+                .done(function (res) {
+                    if(res.code > 0){
+                        let applications = res['applications'];
+                        for(let i=0; i < res['total_num']; i++){
+                            let application = applications[i];
+                            application['application_reason_sim'] = application['application_reason'].substr(0,20);
+                            application['status'] = status2str[application['status']];
+                            app_html += app_str.format(application);
+                        }
+                        $("#application_body").html(app_html);
+                    }
+                })
+        }
+        function showError() {
+            $("#exits_empty").css('display','inline');
+            setTimeout(function () {
+                $("#exits_empty").css('display','none');
+            },1500);
+        }
+        function applicationCourse() {
+            let param_keys = ['course_sec','title','application_reason'];
+            let params = {};
+            for(let i=0; i < param_keys.length; i++){
+                let key = param_keys[i];
+                let value = $("#" + key).val().trim();
+                if(value === ''){
+                    showError();
+                    return
+                }
+                params[key] = value;
+            }
+            params["user_id"] = getCookie('user_id');
+            params['course_id'] = params['course_sec'].split('.')[0];
+            if(params['course_sec'].split('.').length > 1){
+                params['section_id'] = params['course_sec'].split('.')[1];
+            }else{
+                showMessage('开课编号不规范，规范格式如ATMO130001.01', 0, 2000);
+                return;
+            }
+            $.when(applyCourse(params))
+                .done(function (res) {
+                    if(res.code < 0){
+                        showMessage(res.msg,1,2000)
+                    } else {
+                        showMessage('申请成功',1,2000)
+                        getMyApplications();
+                        let param_keys = ['course_sec','title','application_reason'];
+                        for(let i=0; i < param_keys.length; i++){
+                            let key = param_keys[i];
+                            $("#" + key).val('');
+                        }
+                    }
+                })
+        }
+        function bindEvents() {
+            $('#submit').click(function () {
+                applicationCourse()
+            })
+        }
+    </script>
+</div>

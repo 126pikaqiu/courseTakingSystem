@@ -1,0 +1,98 @@
+
+<script src="js/utils.js"></script>
+<script src="js/router/instructor.router.js"></script>
+<script src="js/api/course.js"></script>
+<script src="js/api/index.js"></script>
+<div class="container instructor-container" style="display: none">
+    <div class="row mt-20">
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                <table class="table table-bordered table-hover table-check text-center">
+                    <thead>
+                    <tr class="success">
+                        <th>课程编号</th>
+                        <th>课程名</th>
+                        <th>申请理由</th>
+                        <th>申请人学号</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="apply_body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        getApplications();
+    });
+    function getApplications() {
+        let params = {'user_id': getCookie('user_id')};
+        let app_str = '                    <tr>\n' +
+            '                        <td>{course_id}.0{section_id}</td>\n' +
+            '                        <td>{title}</td>\n' +
+            '                        <td title="{application_reason}">{application_reason_sim}...</td>\n' +
+            '                        <td>{student_id}</td>\n';
+        let handle_str1 ='<td>\n' +
+            '                            <a href="javascript:void(0)" class="applyok hover-underline" data-sid="{student_id}" data="{course_id}.{section_id}">同意</a>\n' +
+            '                            <a href="javascript:void(0)" class="applynok hover-underline" data-sid="{student_id}" data="{course_id}.{section_id}">拒绝</a>\n' +
+            '                        </td>\n' +
+            '                    </tr>';
+
+        let handle_str2 ='<td>\n' +
+            '                            <a href="javascript:void(0)">{status}</a>\n' +
+            '                        </td>\n' +
+            '                    </tr>';
+        const status2str = {1:'已同意',2:'已拒绝'};
+        let app_html = '';
+        $.when(getMyApplyCourse(params))
+            .done(function (res) {
+                console.log(res);
+                if(res.code > 0){
+                    for(let i=0; i < res.total_num; i++){
+                        let application = res.applications[i];
+                        application['application_reason_sim'] = application['application_reason'].substr(0,40);
+                        app_html += app_str.format(application);
+                        if(parseInt(application.status) === 0){
+                            app_html += handle_str1.format(application);
+                        } else {
+                            application['status'] = status2str[application['status']];
+                            app_html += handle_str2.format(application);
+                        }
+                    }
+                }
+                $("#apply_body").html(app_html);
+                bindEvents();
+            })
+    }
+    function handle(data) {
+        $.when(handleApplication(data))
+            .done(function (res) {
+                if(res.code > 0){
+                    getApplications();
+                }
+            })
+    }
+    function bindEvents() {
+        $(".applyok").click(function () {
+            let params = {'user_id': getCookie('user_id'),'student_id':$(this).attr('data-sid')};
+            let course_sec = $(this).attr('data');
+            let splits = course_sec.split('.');
+            params['course_id'] = splits[0];
+            params['section_id'] = splits[1];
+            params['status'] = 1;
+            handle(params);
+        });
+        $(".applynok").click(function () {
+            let params = {'user_id': getCookie('user_id'),'student_id':$(this).attr('data-sid')};
+            let course_sec = $(this).attr('data');
+            let splits = course_sec.split('.');
+            params['course_id'] = splits[0];
+            params['section_id'] = splits[1];
+            params['status'] = 2;
+            handle(params);
+        });
+    }
+</script>

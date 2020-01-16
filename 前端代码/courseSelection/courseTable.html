@@ -1,0 +1,259 @@
+<script src="js/utils.js"></script>
+<script src="js/router/student.router.js"></script>
+<script src="js/api/course.js"></script>
+<script src="js/api/index.js"></script>
+<div class="container student-container" style="display: none">
+    <link rel="stylesheet" href="css/courseTable.css">
+    <div class="row">
+        <table class="table-bordered-l text-center w-95" style="table-layout: fixed;word-break: break-all">
+            <thead>
+            <tr>
+                <th class="tip">周次/节次</th>
+                <th class="day">星期日</th>
+                <th class="day">星期一</th>
+                <th class="day">星期二</th>
+                <th class="day">星期三</th>
+                <th class="day">星期四</th>
+                <th class="day">星期五</th>
+                <th class="day">星期六</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th class="tip">第一节</th>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                </tr>
+                <tr>
+                    <th class="tip">第一节</th>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                </tr>
+                <tr>
+                    <th class="tip">第二节</th>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                </tr>
+                <tr>
+                    <th class="tip">第三节</th>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                </tr>
+                <tr>
+                    <th class="tip">第四节</th>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                </tr>
+                <tr>
+                    <th class="tip">第五节</th>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                </tr>
+                <tr>
+                    <th class="tip">第六节</th>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                </tr>
+                <tr>
+                    <th class="tip">第七节</th>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                </tr>
+                <tr>
+                    <th class="tip">第八节</th>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                </tr>
+                <tr>
+                    <th class="tip">第九节</th>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                </tr>
+                <tr>
+                    <th class="tip">第十节</th>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                </tr>
+                <tr>
+                    <th class="tip">第十一节</th>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                </tr>
+                <tr>
+                    <th class="tip">第十二节</th>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                </tr>
+                <tr>
+                    <th class="tip">第十三节</th>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                </tr>
+                <tr>
+                    <th class="tip">第十四节</th>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                    <td class="time_slot"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="panel panel-primary w-95">
+            <div class="panel-body">
+               <table class="table table-bordered table-hover table-check text-center">
+                        <thead>
+                        <tr class="success">
+                            <th>课程编号</th>
+                            <th>课程名</th>
+                            <th>任课教师</th>
+                            <th>上课时间</th>
+                            <th>开课院系</th>
+                            <th>教室</th>
+                            <th>课程考核</th>
+                            <th>学分</th>
+                        </tr>
+                        </thead>
+                        <tbody id="courses_body">
+                        <tr>
+                        </tr>
+                        </tbody>
+                    </table>
+            </div>
+        </div><!-- end of panel -->
+    </div>
+    <script>
+        $(function(){
+            getMyCourse();
+        });
+        function addSectionToTable(section) {
+            let day = parseInt(section['day']);
+            let start = parseInt(section['start']);
+            let lesson = parseInt(section['end'] - start + 1);
+            let html_course_result_str = '{title} </br> ({course_id}.0{section_id}) </br> ({instructor_name})</br> ({classroom_no})';
+            let section_html = html_course_result_str.format(section);
+            let start_ele_idx = (start - 1) * 7 + (day % 7);
+            let jq_str = '.time_slot';
+            $($(jq_str)[start_ele_idx]).html(section_html).attr('rowspan',lesson).addClass('bgc-blue').css('display','table-cell');
+            for(let i = lesson - 1; i >= 1; i--){
+                $($(jq_str)[(start - 1 + i) * 7 + (day % 7)]).css('display','none')
+            }
+
+        }
+        function getMyCourse() {
+            let params = {'user_id': getCookie('user_id')};
+            $.when(getMyCourses(params))
+                .done(function (res) {
+                    if(res.code > 0 && res.total_num > 0){
+                        for(let i=0; i < res.total_num; i++){
+                            let section = res.sections[i];
+                            addSectionToTable(section)
+                        }
+                        addSections2List(res.sections)
+                    }
+                })
+        }
+        function addSections2List(sections) {
+            let li_str = '                        <tr>\n' +
+                '                            <td>{course_id}.0{section_id}</td>\n' +
+                '                            <td>{title}</td>\n' +
+                '                            <td>{instructor_name}</td>\n' +
+                '                            <td>{time}</td>\n' +
+                '                            <td>{dept_name}</td>\n' +
+                '                            <td>{classroom_no}</td>\n' +
+                '                            <td>{exam}</td>\n' +
+                '                            <td>{credits}</td>\n' +
+                '                        </tr>';
+            const day2time = {'1': '星期一', '2': '星期二','3': '星期三','4': '星期四','5': '星期五','6': '星期六','7': '星期天'};
+            let html_li = '';
+            const open_note = {0:'闭卷考试',1:'开卷考试'};
+            for(let i=0; i < sections.length; i++){
+                let section = sections[i];
+                section['time'] = day2time[section['day']]  + '  ' + section['start'] + '-' + section['end'];
+                if(parseInt(section['exam_type']) === 0){
+                    section['exam'] = open_note[section['open_note_flag']] + ' ' +  section['start_time'] + '-' + section['end_time'] + ' ' +
+                    day2time[section['exam_day']];
+                } else {
+                    section['exam'] = '论文 ' +  section['end_time'] + ' ' +
+                        day2time[section['exam_day']];
+                }
+                html_li += li_str.format(section);
+            }
+            $('#courses_body').html(html_li)
+        }
+    </script>
+</div>

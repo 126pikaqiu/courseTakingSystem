@@ -1,0 +1,291 @@
+<script src="js/utils.js"></script>
+<script src="js/router/root.router.js"></script>
+<script src="js/api/index.js"></script>
+<script src="js/api/student.js"></script>
+<div class="pop" style="position: absolute">
+
+</div>
+<div class="container root-container" style="display: none">
+    <div class="row">
+        <div class="panel-group w-95">
+            <div class="panel panel-primary">
+                <div class="panel panel-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <a class="btn btn-success ml-20" id="import_file">批量导入</a>
+                            <a href="javascript:void(0)" class="ml-10"><span id="file_name"></span></a>
+                            <a class="btn btn-success  ml-20" id="submit_file">确定导入</a>
+                            <a href="./examples/student_list_example.xlsx" class="ml-40 hover-underline">样例文件下载</a>
+                        </div>
+                    </form>
+                </div>
+
+            </div><!-- end of panel -->
+        </div>
+    </div>
+    <div class="row" style="display: none">
+        <form id="upload" enctype="multipart/form-data" method="post">
+            <input type="file" name="excel_file" id="up_file" accept=".xlsx"/>
+        </form>
+    </div>
+    <div class="row">
+        <div class="panel-group w-95" id="select_table">
+            <div class="panel panel-primary">
+                <div class="panel panel-body">
+                    <form class="form-inline mb-10">
+                        <div class="form-group">
+                            <label class="ml-20">学号</label>
+                            <input type="text" class="form-control" name="student_id" id="student_id" placeholder="学号" >
+
+                            <label class="ml-20">姓名</label>
+                            <input type="text" class="form-control" name="student_name" id="student_name" placeholder="姓名">
+
+                            <label class="ml-20">专业</label>
+                            <input type="text" class="form-control" name="student_major" id="student_major" placeholder="专业">
+
+                            <a class="btn btn-success ml-20" id="search_link">查 询</a>
+                            <a class="btn btn-success ml-20" id="insert" data-ok="0">添加</a>
+
+                        </div>
+                    </form>
+                    <div style="visibility: hidden" id="insert_body" class="mb-10">
+                        <input type="text" id="insert_student_id" placeholder="学号">
+                        <input type="text" id="insert_student_name" placeholder="姓名">
+                        <input type="text" id="insert_student_major" placeholder="专业">
+                        <input type="text" id="insert_student_dept_name" placeholder="院系">
+                    </div>
+                    <table class="table table-bordered table-hover table-check text-center" style="table-layout: fixed">
+                        <thead>
+                        <tr class="success">
+                            <th>学号</th>
+                            <th>姓名</th>
+                            <th>专业</th>
+                            <th>院系</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="search_body">
+                        </tbody>
+                    </table>
+                </div>
+                <nav class="pull-right">
+                    <ul class="pagination pagination-sm">
+                        <li>
+                            <a href="javascript:void(0)" id="prev">
+                                <span >«</span>
+                            </a>
+                        </li>
+                        <li class="active"><a href="javascript:void(0)" id="current_page">1</a></li>
+                        <li>
+                            <a href="javascript:void(0)" id="next">
+                                <span>»</span>
+                            </a>
+                        </li>
+                        <li><a href="javascript:void(0)" style="padding: 5px 2px;margin-left: 3px">共 <label id="total_page" style="margin-bottom: 0"></label>页</a></li>
+                    </ul>
+                </nav>
+                <nav class="pull-left" >
+                    <ul class="pagination pagination-sm">
+                        <li>
+                            <a href="javascript:void(0)" style="padding: 2.3px 2px;margin-right: 3px"><input type="text" id='2page' style="width: 30px" value="1" class="text-center"></a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" id="2pageok" style="background-color: #337ab7;color: white"> 跳转 </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div><!-- end of panel -->
+        </div>
+
+        <script>
+            $(function(){
+                search(1);
+                bindEvents();
+            });
+            function search(page_num) {
+                let html_search_result_str = '                        <tr>\n' +
+                    '                            <td>{student_id}</td>\n' +
+                    '                            <td class="{student_id}">{student_name}</td>\n' +
+                    '                            <td class="{student_id}">{student_major}</td>\n' +
+                    '                            <td class="{student_id}">{student_dept_name}</td>\n' +
+                    '                            <td>' +
+                    '<a href="javascript:void(0)" class="modify hover-underline" data="{student_id}" data-ok="0" style="margin-right: 30px">修改</a>' +
+                    '<a href="javascript:void(0)" class="del hover-underline" data="{student_id}">删除</a>' +
+                    '</td>\n' +
+                    '                        </tr>';
+                let search_params = {};
+                search_params['student_id'] = $("#student_id").val();
+                search_params['student_name'] = $("#student_name").val();
+                search_params['student_major'] = $("#student_major").val();
+                search_params['page_num'] = page_num - 1;
+                $.when(checkStudents(search_params))
+                    .done(function (res) {
+                        console.log(res);
+                        if(res.code > 0 && res.total_num >= 0){
+                            if(res.total_num === 0){
+                                $("#search_body").html('');
+                                setCookie('current_page',0);
+                                $('#current_page').html(0);
+                                $('#total_page').html(0);
+                                return;
+                            }
+                            setCookie('current_page',page_num);
+                            $('#current_page').html(page_num);
+                            $('#total_page').html(parseInt((res.total_num + 14) / 15));
+                            setCookie('total_page', parseInt((res.total_num + 14) / 15));
+                            const students = res.students;
+                            let html_search_result = '';
+                            for(let i=0; i < students.length; i++){
+                                let student = students[i];
+                                html_search_result += html_search_result_str.format(student);
+                            }
+                            $("#search_body").html(html_search_result);
+                            $(".modify").click(function () {
+                                let student_id = $(this).attr('data');
+                                let edited_tds = $('.' + student_id);
+                                if($(this).attr('data-ok') < 1){
+                                    $(this).attr('data-ok',1);
+                                    $(this).html('确认');
+                                    for(let i= 0; i < edited_tds.length; i++){
+                                        let value = $(edited_tds[i]).html();
+                                        $(edited_tds[i]).html("<input type='text' style='outline：none;' value='" + value + "'/>")
+                                    }
+                                } else {
+                                    let data = [];
+                                    for(let i = 0; i < edited_tds.length; i++){
+                                        data.push($($('.' + student_id + ' input')[i]).val())
+                                    }
+                                    let that = this;
+                                    if(!checkData(data)){
+                                        showMessage('数据填写需要完整规范',0,2000);
+                                    } else {
+                                        let params = {'student_id': student_id, 'student_name':data[0], 'student_major':data[1], 'student_dept_name':data[2]};
+                                        $.when(updateStudent(params))
+                                            .done(function (res) {
+                                                console.log(res);
+                                                if(res.code > 0){
+                                                    for(let i= 0; i < edited_tds.length; i++){
+                                                        $(edited_tds[i]).html(data[i])
+                                                    }
+                                                    $(that).attr('data-ok','0');
+                                                    $(that).html('修改');
+                                                } else {
+                                                    showMessage(res.msg,0,2000);
+                                                    search(parseInt(getCookie('current_page')))
+                                                }
+                                            })
+                                    }
+                                }
+                            });
+                            $(".del").click(function () {
+                                let student_id = $(this).attr('data');
+                                let params = {'student_id': student_id};
+                                $.when(deleteStudent(params))
+                                    .done(function (res) {
+                                        console.log(res);
+                                        if(res.code > 0){
+                                            showMessage('成功删除', 1, 0, 1);
+                                            search(parseInt(getCookie('current_page')));
+                                        } else {
+                                            showMessage('删除失败',0,2000);
+                                        }
+                                    })
+                            })
+                        }
+                    })
+            }
+            function checkData(data) {
+                for(let i = 0; i < data.length; i++){
+                    if(data[i].trim() === ''){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            function bindEvents() {
+                $("#search_link").click(function () {
+                    search(1)
+                });
+                $("#next").click(function () {
+                    const current_page = parseInt($('#current_page').html());
+                    if(current_page < getCookie('total_page')){
+                        search(current_page + 1);
+                    }
+                });
+                $("#prev").click(function () {
+                    const current_page = parseInt($('#current_page').html());
+                    if(1 < current_page){
+                        search(current_page - 1);
+                    }
+                });
+                $("#2pageok").click(function () {
+                    const topage = parseInt($("#2page").val());
+                    if(topage > 1 && topage <= getCookie('total_page')){
+                        search(topage);
+                    }
+                });
+                $('#import_file').click(function () {
+                    $("#up_file").click();
+                });
+                $("#up_file").change(function () {
+                    let file_name = $(this).val();
+                    $("#file_name").html(file_name.substr(file_name.lastIndexOf('\\') + 1))
+                });
+                $('#submit_file').click(function () {
+                    if($("#up_file").val() === ""){
+                        showMessage('请先选择文件',)
+                    } else {
+                        uploadFile();
+                    }
+                });
+                $("#insert").click(function () {
+                    if($(this).attr('data-ok') < 1){
+                        $(this).attr('data-ok','1');
+                        $(this).html('确认');
+                        $("#insert_body").css('visibility','visible');
+                    } else {
+                        let params_keys = ['student_id','student_name','student_major','student_dept_name'];
+                        let params = {};
+                        for(let i in params_keys){
+                            let key = params_keys[i];
+                            params[key] = $("#insert_" + key).val().trim();
+                            if(params[key] === ''){
+                                showMessage('数据填写需要完整规范',0,2000);
+                                return;
+                            }
+                        }
+                        let that = this;
+                        $.when(insertStudent(params))
+                            .done(function (res) {
+                                console.log(res);
+                                if(res.code > 0){
+                                    showMessage('插入成功',1, 0, 1);
+                                    $("#insert_body").css('visibility','hidden');
+                                    $(that).html('添加');
+                                    $(that).attr('data-ok','0');
+                                } else {
+                                    showMessage('插入失败，编号重复',0,2000);
+                                }
+                            })
+                    }
+                })
+            }
+            function uploadFile() {
+                let form = document.getElementById('upload');
+                let formData = new FormData(form);
+                $.when(registerStudent(formData))
+                    .done(function (res) {
+                        console.log(res);
+                        if(res.code > 0){
+                            showMessage('导入成功')
+                        } else{
+                            showMessage("row: " + (res.successed_item_num + 1) + ", " + res.msg, 0,2000);
+                        }
+                        $("#up_file").val('');
+                        $("#file_name").html('');
+                    })
+
+            }
+        </script>
+    </div>
+</div>

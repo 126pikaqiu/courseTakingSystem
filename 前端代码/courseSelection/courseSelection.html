@@ -1,0 +1,465 @@
+<script src="js/utils.js"></script>
+<script src="js/router/student.router.js"></script>
+<script src="js/api/course.js"></script>
+<script src="js/api/index.js"></script>
+<div class="container select-not-allow" style="display:none;">
+    <h1 style="color: red">选课系统暂未开放</h1>
+</div>
+<div class="container student-container select-allow" style="display: none">
+    <link rel="stylesheet" href="css/courseSelection.css">
+    <div class="row">
+        <table class="table-bordered-l text-center w-95" style="table-layout: fixed;word-break: break-all">
+            <thead>
+            <tr>
+                <th class="tip">周次/节次</th>
+                <th class="day">星期日</th>
+                <th class="day">星期一</th>
+                <th class="day">星期二</th>
+                <th class="day">星期三</th>
+                <th class="day">星期四</th>
+                <th class="day">星期五</th>
+                <th class="day">星期六</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+                <th class="tip">第一节</th>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+            </tr>
+            <tr>
+                <th class="tip">第二节</th>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+            </tr>
+            <tr>
+                <th class="tip">第三节</th>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+            </tr>
+            <tr>
+                <th class="tip">第四节</th>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+            </tr>
+            <tr>
+                <th class="tip">第五节</th>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+            </tr>
+            <tr>
+                <th class="tip">第六节</th>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+            </tr>
+            <tr>
+                <th class="tip">第七节</th>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+            </tr>
+            <tr>
+                <th class="tip">第八节</th>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+            </tr>
+            <tr>
+                <th class="tip">第九节</th>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+            </tr>
+            <tr>
+                <th class="tip">第十节</th>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+            </tr>
+            <tr>
+                <th class="tip">第十一节</th>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+            </tr>
+            <tr>
+                <th class="tip">第十二节</th>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+            </tr>
+            <tr>
+                <th class="tip">第十三节</th>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+            </tr>
+            <tr>
+                <th class="tip">第十四节</th>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+                <td class="time_slot"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="w-95" style="margin-bottom: 20px!important;">
+            <a href="javascript:void(0)" id="select" class="a-active" style="padding: 5px 10px"> 选课 </a>
+            <a href="javascript:void(0)" id="selected" style="padding: 5px 10px;margin-left: 10px"> 已选课程 </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel-group w-95" id="select_table">
+            <div class="panel panel-primary">
+                <div class="panel panel-body">
+                    <form class="form-inline mb-10">
+                        <div class="form-group">
+                            <label class="ml-20">开课编号</label>
+                            <input type="text" class="form-control" name="course_sec" id="course_sec" placeholder="课程编号" >
+
+                            <label class="ml-20">课程名</label>
+                            <input type="text" class="form-control" name="title" id="title" placeholder="课程名">
+
+                            <label class="ml-20">开课院系</label>
+                            <input type="text" class="form-control" name="dept_name" id="dept_name" placeholder="开课院系">
+                            <a class="btn btn-success ml-20" id="search_link">查 询</a>
+
+                        </div>
+                    </form>
+                    <table class="table table-bordered table-hover table-check text-center" style="table-layout: fixed;font-size: smaller">
+                        <thead>
+                        <tr class="success">
+                            <th>开课编号</th>
+                            <th style="width: 220px">课程名</th>
+                            <th style="width: 100px">任课教师</th>
+                            <th style="width: 90px">上课时间</th>
+                            <th style="width: 130px">开课院系</th>
+                            <th style="width: 150px">教室</th>
+                            <th style="width: 50px">上限</th>
+                            <th style="width: 60px">学分</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="search_body">
+                        </tbody>
+                    </table>
+                </div>
+                <nav class="pull-right">
+                    <ul class="pagination pagination-sm">
+                        <li>
+                            <a href="javascript:void(0)" id="prev">
+                                <span >«</span>
+                            </a>
+                        </li>
+                        <li class="active"><a href="javascript:void(0)" id="current_page">1</a></li>
+                        <li>
+                            <a href="javascript:void(0)" id="next">
+                                <span>»</span>
+                            </a>
+                        </li>
+                        <li><a href="javascript:void(0)" style="padding: 5px 2px;margin-left: 3px">共 <label id="total_page" style="margin-bottom: 0"></label></a></li>
+                    </ul>
+                </nav>
+                <nav class="pull-left" >
+                    <ul class="pagination pagination-sm">
+                        <li>
+                            <a href="javascript:void(0)" style="padding: 2.3px 2px;margin-right: 3px"><input type="text" id='2page' style="width: 30px" value="1" class="text-center"></a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" id="2pageok" style="background-color: #337ab7;color: white"> 跳转 </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div><!-- end of panel -->
+        </div>
+        <div class="panel panel-primary w-95" id="selected_table" style="display: none">
+            <div class="panel-body">
+                <table class="table table-bordered table-hover table-check text-center" style="font-size: smaller">
+                    <thead>
+                    <tr class="success">
+                        <th>课程编号</th>
+                        <th>课程名</th>
+                        <th>任课教师</th>
+                        <th>上课时间</th>
+                        <th>教室</th>
+                        <th>课程考核</th>
+                        <th>学分</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="courses_body">
+
+                    </tbody>
+                </table>
+            </div>
+        </div><!-- end of panel -->
+        <script>
+            $(function(){
+                getMyCourse();
+                search(1);
+                bindEVents();
+            });
+            function addSectionToTable(section) {
+                let day = parseInt(section['day']);
+                let start = parseInt(section['start']);
+                let lesson = parseInt(section['end'] - start + 1);
+                let html_course_result_str = '{title} </br> ({course_id}.0{section_id}) </br> ({instructor_name})</br> ({classroom_no})';
+                let section_html = html_course_result_str.format(section);
+                let start_ele_idx = (start - 1) * 7 + (day % 7);
+                let jq_str = '.time_slot';
+                $($(jq_str)[start_ele_idx]).html(section_html).attr('rowspan',lesson).addClass('bgc-blue').css('display','table-cell');
+                for(let i = lesson - 1; i >= 1; i--){
+                    $($(jq_str)[(start - 1 + i) * 7 + (day % 7)]).css('display','none')
+                }
+
+            }
+            function removeSectionFromTable(section) {
+                let day = parseInt(section['day']);
+                let start = parseInt(section['time'].split('-')[0]);
+                let lesson = parseInt(section['time'].split('-')[1] - start + 1);
+                let start_ele_idx = (start - 1) * 7 + (day % 7);
+                let jq_str = '.time_slot';
+                $($(jq_str)[start_ele_idx]).html('').attr('rowspan',1).removeClass('bgc-blue');
+                for(let i = lesson - 1; i >= 1; i--){
+                    $($(jq_str)[(start - 1 + i) * 7 + (day % 7)]).css('display','table-cell')
+                }
+            }
+            function getMyCourse() {
+                let params = {'user_id': getCookie('user_id')};
+                $.when(getMyCourses(params))
+                    .done(function (res) {
+                        if(res.code > 0 && res.total_num > 0){
+                            for(let i=0; i < res.total_num; i++){
+                                let section = res.sections[i];
+                                addSectionToTable(section);
+                            }
+                            addSections2List(res.sections);
+                            $(".drop_section").click(function () {
+                                let time2day = {'星期一':1, '星期二':2, '星期三':3, '星期四':4, '星期五':5,'星期六':6,'星期天':7}
+                                const idx = $(".drop_section").index(this);
+                                let time = $($('#selected_table table td')[idx * 8 + 3]).html();
+                                const time_splits = time.split(' ');
+                                let day = time2day[time_splits[0]];
+                                let lesson = parseInt(time_splits[2].split('-')[1]) - parseInt(time_splits[2].split('-')[0]);
+                                let course_sec = $(this).attr('id');
+                                let splits = course_sec.split('.');
+                                let params = {'user_id': getCookie('user_id'),'course_id':splits[0],'section_id':splits[1],'day':day,
+                                            'lesson':lesson, 'time': time_splits[2]};
+                                drop(params, idx);
+                            })
+                        }
+                    })
+            }
+            function select(data) {
+                $.when(selectCourse(data))
+                    .done(function (res) {
+                        if(res.code > 0){
+                            showMessage('选课成功',2,0,1);
+                            getMyCourse();
+                        } else {
+                            showMessage(res.msg,1)
+                        }
+                    })
+            }
+            function drop(data, row) {
+                $.when(dropCourse(data))
+                    .done(function (res) {
+                        if(res.code > 0){
+                            showMessage('退课成功',2,0,1);
+                            removeSectionFromTable(data);
+                            $($('#selected_table tr')[row+ 1]).remove();
+                        } else {
+                            showMessage(res.msg,1)
+                        }
+                    })
+            }
+            function addSections2List(sections) {
+                let li_str = '                        <tr>\n' +
+                    '                            <td>{course_id}.0{section_id}</td>\n' +
+                    '                            <td>{title}</td>\n' +
+                    '                            <td>{instructor_name}</td>\n' +
+                    '                            <td>{time}</td>\n' +
+                    '                            <td>{classroom_no}</td>\n' +
+                    '                            <td>{exam}</td>\n' +
+                    '                            <td>{credits}</td>\n' +
+                    '                            <td><a href="javascript:void(0)" class="drop_section  hover-underline" id="{course_id}.{section_id}">退课</a></td>\n' +
+                    '                        </tr>';
+                const day2time = {'1': '星期一', '2': '星期二','3': '星期三','4': '星期四','5': '星期五','6': '星期六','7': '星期天'};
+                let html_li = '';
+                const open_note = {0:'闭卷考试',1:'开卷考试'};
+                for(let i=0; i < sections.length; i++){
+                    let section = sections[i];
+                    section['time'] = day2time[section['day']]  + '  ' + section['start'] + '-' + section['end'];
+                    if(parseInt(section['exam_type']) === 0){
+                        section['exam'] = open_note[section['open_note_flag']] + ' ' +  section['start_time'] + '-' + section['end_time'] + ' ' +
+                            day2time[section['exam_day']];
+                    } else {
+                        section['exam'] = '论文 ' +  section['end_time'] + ' ' +
+                            day2time[section['exam_day']];
+                    }
+                    html_li += li_str.format(section);
+                }
+                $('#courses_body').html(html_li)
+            }
+            function search(page_num) {
+                let html_search_result_str = '                        <tr>\n' +
+                    '                            <td>{course_id}.0{section_id}</td>\n' +
+                    '                            <td>{title}</td>\n' +
+                    '                            <td>{instructor_name}</td>\n' +
+                    '                            <td>{time}</td>\n' +
+                    '                            <td>{dept_name}</td>\n' +
+                    '                            <td>{classroom_no}</td>\n' +
+                    '                            <td>{limit}</td>\n' +
+                    '                            <td>{credits}</td>\n' +
+                    '                            <td><a href="javascript:void(0)" class="selection hover-underline" id="{course_id}.{section_id}">选课</a></td>\n' +
+                    '                        </tr>';
+                let day2time = {'1': '星期一', '2': '星期二','3': '星期三','4': '星期四','5': '星期五','6': '星期六','7': '星期天'};
+                let search_params = {};
+                let course_sec = $("#course_sec").val();
+                let splits = course_sec.split('.');
+                search_params['course_id'] = splits[0];
+                search_params['section_id'] = '';
+                if(splits.length > 1){
+                    search_params['section_id'] = splits[1];
+                }
+                search_params['dept_name'] = $('#dept_name').val();
+                search_params['title'] = $('#title').val();
+                search_params['instructor_name'] = '';
+                search_params['page_num'] = page_num - 1;
+                $.when(searchCourse(search_params))
+                    .done(function (res) {
+                        if(res.code > 0 && res.total_num > 0){
+                            $('#current_page').html(page_num);
+                            $('#total_page').html(parseInt((res.total_num + 14) / 15));
+                            setCookie('total_page', parseInt((res.total_num + 14) / 15));
+                            const sections = res.sections;
+                            let html_search_result = '';
+                            for(let i=0; i < sections.length; i++){
+                                let section = sections[i];
+                                section['time'] = day2time[section['day']]  + '  ' + section['start'] + '-' + section['end'];
+                                html_search_result += html_search_result_str.format(section);
+                            }
+                            $("#search_body").html(html_search_result);
+                            $(".selection").click(function () {
+                                let course_sec = $(this).attr('id');
+                                let splits = course_sec.split('.');
+                                let params = {'user_id': getCookie('user_id'),'course_id':splits[0],'section_id':splits[1]};
+                                select(params);
+                            });
+                        }
+                    })
+            }
+            function bindEVents() {
+                $("#search_link").click(function () {
+                    search(1)
+                });
+                $("#next").click(function () {
+                    const current_page = parseInt($('#current_page').html());
+                    if(current_page < getCookie('total_page')){
+                        search(current_page + 1);
+                    }
+                });
+                $("#prev").click(function () {
+                    const current_page = parseInt($('#current_page').html());
+                    if(1 < current_page){
+                        search(current_page - 1);
+                    }
+                });
+                $(".selection").click(function () {
+                    let course_sec = $(this).attr('id');
+                    let splits = course_sec.split('.');
+                    let params = {'user_id': getCookie('user_id'),'course_id':splits[0],'section_id':splits[1]};
+                    select(params);
+                });
+                $("#2pageok").click(function () {
+                    const topage = parseInt($("#2page").val());
+                    if(topage > 1 && topage <= getCookie('total_page')){
+                        search(topage);
+                    }
+                });
+                $("#selected").click(function () {
+                    $('#select').removeClass('a-active');
+                    $(this).addClass('a-active');
+                    $('#select_table').css('display','none');
+                    $('#selected_table').css('display','block');
+                });
+                $("#select").click(function () {
+                    $('#selected').removeClass('a-active');
+                    $(this).addClass('a-active');
+                    $('#selected_table').css('display','none');
+                    $('#select_table').css('display','block');
+                });
+                $(".drop_section").click(function () {
+                    let course_sec = $(this).attr('id');
+                    let splits = course_sec.split('.');
+                    let params = {'user_id': getCookie('user_id'),'course_id':splits[0],'section_id':splits[1]};
+                    drop(params)
+                })
+            }
+        </script>
+    </div>
+</div>
